@@ -6,6 +6,9 @@ GO_PACKAGE := github.com/rmorison/protobuf-toolchain-template
 # Edit: Add .proto files here
 PROTO_FILES := proto/helloworld/helloworld.proto
 
+# Edit: protoc build arch from releases page: https://github.com/protocolbuffers/protobuf/releases/
+PROTOC_ARCH := $(if $(PROTOC_ARCH),$(PROTOC_ARCH),linux-x86_64)
+
 # Derived: protoc built files
 PROTOC_GO_FILES := $(PROTO_FILES:.proto=.pb.go) $(PROTO_FILES:.proto=_grpc.pb.go)
 .SECONDARY: $(PROTOC_GO_FILES)
@@ -37,7 +40,7 @@ go.mod:
 toolchain: $(PROTOC)
 
 $(PROTOC):
-	make -C toolchain GO_PACKAGE=$(GO_PACKAGE)
+	make -C toolchain GO_PACKAGE=$(GO_PACKAGE) PROTOC_ARCH=$(PROTOC_ARCH)
 
 clean:
 	rm -f $(PROTOC_GO_FILES) greeter_client/main greeter_server/main

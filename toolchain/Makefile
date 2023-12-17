@@ -25,6 +25,7 @@ bin/protoc: downloads/$(PROTOC_ZIP)
 downloads/$(PROTOC_ZIP): | downloads
 	wget --directory-prefix=downloads "$(PROTOC_URL)"
 
+# Edit: Update protoc plugin builds
 bin/protoc-gen-go: go.sum | bin
 	export GOBIN=$$(pwd)/bin && go install google.golang.org/protobuf/cmd/protoc-gen-go
 
